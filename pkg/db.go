@@ -26,10 +26,10 @@ func getAllTodos(db *sql.DB) (todos []TodoItem, err error) {
 
 	for rows.Next() {
 		var todo TodoItem
-		if err := rows.Scan(&todo.ID, &todo.Description, &todo.Priority); err != nil {
+		if err := rows.Scan(&todo.Id, &todo.Description, &todo.Priority); err != nil {
 			log.Fatal(err)
 		}
-		log.Printf("Scaned todo: id %s, description: %s, priority: %d\n", todo.ID, todo.Description, todo.Priority)
+		log.Printf("Scaned todo: id %d, description: %s, priority: %d\n", todo.Id, todo.Description, todo.Priority)
 		todos = append(todos, todo)
 	}
 	if !rows.NextResultSet() {
@@ -42,11 +42,11 @@ func getAllTodos(db *sql.DB) (todos []TodoItem, err error) {
 }
 
 // Function to get todo by id
-func getTodoById(db *sql.DB, id string) (TodoItem, error) {
-	log.Printf("Get Todo By Id: %s", id)
+func getTodoById(db *sql.DB, id int) (TodoItem, error) {
+	log.Printf("Get Todo By Id: %d", id)
 
 	var todo TodoItem
-	err := db.QueryRow("SELECT * FROM todos where id=?;", id).Scan(&todo.ID, &todo.Description, &todo.Priority)
+	err := db.QueryRow("SELECT * FROM todos where id=?;", id).Scan(&todo.Id, &todo.Description, &todo.Priority)
 
 	if err == sql.ErrNoRows {
 		log.Printf("no todo item with id %v\n", id)
@@ -59,20 +59,20 @@ func getTodoById(db *sql.DB, id string) (TodoItem, error) {
 
 // Function to insert a new todo item into the database.
 // Returns id of the new todo item
-func insertTodo(db *sql.DB, newTodo TodoItem) (string, error) {
+func insertTodo(db *sql.DB, newTodo TodoItem) (int, error) {
 	log.Printf("Insert a Todo: %v", newTodo)
 
-	feedback, err := db.Exec("INSERT INTO todos (id, description, priority) VALUES (?, ?, ?);", newTodo.ID, newTodo.Description, newTodo.Priority)
+	feedback, err := db.Exec("INSERT INTO todos (id, description, priority) VALUES (?, ?, ?);", newTodo.Id, newTodo.Description, newTodo.Priority)
 	
 	log.Printf("Insert exec feedback: %s", feedback)
 	
 	if err != nil {
 		log.Printf("Error can't insert todo item %v\n", newTodo)
-		return newTodo.ID, err
+		return newTodo.Id, err
 	}
 	
 	id, err := feedback.LastInsertId()
 	log.Printf("feedback.LastInsertId(): %d", id)
-	return newTodo.ID, err
+	return newTodo.Id, err
 
 }

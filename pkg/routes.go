@@ -3,6 +3,7 @@ package pkg
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,11 +33,15 @@ func GetAllTodos(c *gin.Context) {
 }
 
 func GetTodoById(c *gin.Context) {
-	id := c.Param("id")
+	idStr := c.Param("id")
+	log.Printf("Route: Get Todo by Id `GET /todo/:id=%v`", idStr)
 
-	log.Printf("Route: Get Todo by Id `GET /todo/:id=%v`", id)
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+	}
 
-	var db, err = openDB()
+	db, err := openDB()
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 
@@ -62,7 +67,7 @@ func NewTodo(c *gin.Context) {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 	}
 
-	var db, err = openDB()
+	db, err := openDB()
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 	}
@@ -82,39 +87,9 @@ func NewTodo(c *gin.Context) {
 }
 
 func DeleteTodo(c *gin.Context) {
-	idToDelete := c.Param("id")
-	log.Printf("Route: Delete a todo `DELETE /todo/:id=`", idToDelete)
-
-	var todoAfterDelete []TodoItem
-
-	for _, item := range todos {
-		if item.ID != idToDelete {
-			todoAfterDelete = append(todoAfterDelete, item)
-		}
-	}
-
-	todos = todoAfterDelete
-
-	c.IndentedJSON(http.StatusOK, "Success")
+	c.IndentedJSON(http.StatusNotImplemented, "Not implemented")
 }
 
 func UpdateTodo(c *gin.Context) {
-	id := c.Param("id")
-
-	log.Printf("Route: Update a todo item `PUT /todo/:id=`", id)
-
-	var itemToUpdate TodoItem
-
-	if err := c.BindJSON(&itemToUpdate); err != nil {
-		return
-	}
-
-	for index, item := range todos {
-		if item.ID == id {
-			todos[index] = itemToUpdate
-			c.IndentedJSON(http.StatusOK, itemToUpdate)
-			return
-		}
-	}
-	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "todo not found"})
+	c.IndentedJSON(http.StatusNotImplemented, "Not implemented")
 }
