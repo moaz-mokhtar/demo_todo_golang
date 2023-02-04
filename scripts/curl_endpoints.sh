@@ -14,9 +14,9 @@ echo "Get all todos, endpoint 'GET /todos'"
 curl http://localhost:$PORT/todos
 
 
-# echo "\n\n==========================="
-# echo "Get a todo by id, endpoint 'GET /todo/:id'"
-# curl http://localhost:$PORT/todo/2
+echo "\n\n==========================="
+echo "Get a todo by id, endpoint 'GET /todo/:id'"
+curl http://localhost:$PORT/todo/2
 
 
 # echo "\n\n==========================="

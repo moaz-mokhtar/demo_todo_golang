@@ -12,7 +12,7 @@ func openDB() (db *sql.DB, err error) {
 	if err == nil {
 		log.Printf("Database opened successfully")
 	}
-	return db, err	
+	return db, err
 }
 
 // Function to get all todos
@@ -20,20 +20,20 @@ func getAllTodos(db *sql.DB) (todos []TodoItem, err error) {
 	rows, err := db.Query("SELECT id, description, priority FROM todos")
 
 	if err != nil {
-			log.Fatal(err)
+		log.Fatal(err)
 	}
 	defer rows.Close()
 
 	for rows.Next() {
-			var todo TodoItem
-			if err := rows.Scan(&todo.ID, &todo.Description, &todo.Priority); err != nil {
-					log.Fatal(err)
-			}
-			log.Printf("Scaned todo: id %s, description: %s, priority: %d\n", todo.ID, todo.Description, todo.Priority)
-			todos = append(todos, todo)
+		var todo TodoItem
+		if err := rows.Scan(&todo.ID, &todo.Description, &todo.Priority); err != nil {
+			log.Fatal(err)
+		}
+		log.Printf("Scaned todo: id %s, description: %s, priority: %d\n", todo.ID, todo.Description, todo.Priority)
+		todos = append(todos, todo)
 	}
 	if !rows.NextResultSet() {
-			log.Printf("finished sets: %v", rows.Err())
+		log.Printf("finished sets: %v", rows.Err())
 	}
 
 	log.Printf("Scaned todo: id %v", todos)
@@ -41,3 +41,18 @@ func getAllTodos(db *sql.DB) (todos []TodoItem, err error) {
 	return
 }
 
+// Function to get all todos
+func getTodoById(db *sql.DB, id string) (TodoItem, error) {
+	log.Printf("Get Todo By Id: %s", id)
+
+	var todo TodoItem
+	err := db.QueryRow("SELECT * FROM todos where id=?;", id).Scan(&todo.ID, &todo.Description, &todo.Priority)
+
+	if err == sql.ErrNoRows {
+		log.Printf("no todo item with id %v\n", id)
+		return todo, err
+	} else {
+		log.Printf("No sql.ErrNoRows found but found : %s", err.Error())
+		return todo, nil
+	}
+}
