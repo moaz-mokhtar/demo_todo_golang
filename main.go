@@ -17,7 +17,7 @@ func main() {
 	router.GET("/", pkg.Health)
 	router.GET("/todos", pkg.GetAllTodos)
 	router.GET("/todo/:id", pkg.GetTodoById)
-	router.POST("/todo", pkg.PostTodo)
+	router.POST("/todo", pkg.NewTodo)
 	router.DELETE("/todo/:id", pkg.DeleteTodo)
 	router.PUT("/todo/:id", pkg.UpdateTodo)
 

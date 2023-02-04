@@ -41,7 +41,7 @@ func getAllTodos(db *sql.DB) (todos []TodoItem, err error) {
 	return
 }
 
-// Function to get all todos
+// Function to get todo by id
 func getTodoById(db *sql.DB, id string) (TodoItem, error) {
 	log.Printf("Get Todo By Id: %s", id)
 
@@ -55,4 +55,24 @@ func getTodoById(db *sql.DB, id string) (TodoItem, error) {
 		log.Printf("No sql.ErrNoRows found but found : %s", err.Error())
 		return todo, nil
 	}
+}
+
+// Function to insert a new todo item into the database.
+// Returns id of the new todo item
+func insertTodo(db *sql.DB, newTodo TodoItem) (string, error) {
+	log.Printf("Insert a Todo: %v", newTodo)
+
+	feedback, err := db.Exec("INSERT INTO todos (id, description, priority) VALUES (?, ?, ?);", newTodo.ID, newTodo.Description, newTodo.Priority)
+	
+	log.Printf("Insert exec feedback: %s", feedback)
+	
+	if err != nil {
+		log.Printf("Error can't insert todo item %v\n", newTodo)
+		return newTodo.ID, err
+	}
+	
+	id, err := feedback.LastInsertId()
+	log.Printf("feedback.LastInsertId(): %d", id)
+	return newTodo.ID, err
+
 }

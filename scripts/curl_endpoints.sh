@@ -19,13 +19,13 @@ echo "Get a todo by id, endpoint 'GET /todo/:id'"
 curl http://localhost:$PORT/todo/2
 
 
-# echo "\n\n==========================="
-# echo "Create new todo, endpoint 'POST /todo'"
-# curl http://localhost:$PORT/todo \
-#     --include \
-#     --header "Content-Type: application/json" \
-#     --request "POST" \
-#     --data '{"id": "4","description": "Get a research for best practices with Go","priority": 4}'
+echo "\n\n==========================="
+echo "Create new todo, endpoint 'POST /todo'"
+curl http://localhost:$PORT/todo \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "POST" \
+    --data '{"id": "4","description": "Get a research for best practices with Go","priority": 4}'
 
 
 # echo "\n\n==========================="
