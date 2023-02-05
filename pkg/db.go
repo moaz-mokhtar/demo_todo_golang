@@ -95,3 +95,22 @@ func deleteTodo(db *sql.DB, idToDelete int) (int64, error) {
 	return count, err
 
 }
+
+// Update a todo item from the database.
+// Returns count of rows affected.
+func updateTodo(db *sql.DB, idToUpdate int, todoToUpdate TodoItem) (int64, error) {
+	log.Printf("Update a Todo.Id: %v and contect is: %v", idToUpdate, todoToUpdate)
+
+	feedback, err := db.Exec("UPDATE todos SET description=?, priority=? WHERE id = ?;", todoToUpdate.Description, todoToUpdate.Priority, idToUpdate)
+
+	log.Printf("Update exec feedback: %s", feedback)
+
+	if err != nil {
+		log.Printf("Error can't update todo item id: %v\n", idToUpdate)
+	}
+
+	count, err := feedback.RowsAffected()
+	log.Printf("feedback.RowsAffected(): %d", count)
+	return count, err
+
+}

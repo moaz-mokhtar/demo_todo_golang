@@ -35,13 +35,13 @@ curl http://localhost:$PORT/todo/1 \
     --request "DELETE"
 
 
-# echo "\n\n==========================="
-# echo "Update a todo, endpoint 'GET /todo/:id'"
-# curl http://localhost:$PORT/todo/2 \
-#     --include \
-#     --header "Content-Type: application/json" \
-#     --request "PUT" \
-#     --data '{"id": "2","description": "Participate in Open Source with Go or a volunteer position","priority": 4}'
+echo "\n\n==========================="
+echo "Update a todo, endpoint 'GET /todo/:id'"
+curl http://localhost:$PORT/todo/2 \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "PUT" \
+    --data '{"id": 2,"description": "Participate in Open Source with Go or a volunteer position","priority": 4}'
 
 
 

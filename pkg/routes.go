@@ -108,7 +108,7 @@ func DeleteTodo(c *gin.Context) {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 	} else {
 		if count > 0 {
-			message := fmt.Sprintf("Delete todo.id: %v done successfully. Count of rows affected by detele are: %v", idStr,count)
+			message := fmt.Sprintf("Delete todo.id: %v done successfully. Count of rows affected by delete are: %v", idStr,count)
 			log.Print(message)
 			c.IndentedJSON(http.StatusOK, gin.H{"message": message})
 		} else {
@@ -120,5 +120,38 @@ func DeleteTodo(c *gin.Context) {
 }
 
 func UpdateTodo(c *gin.Context) {
-	c.IndentedJSON(http.StatusNotImplemented, "Not implemented")
+	idStr := c.Param("id")
+	log.Printf("Route: update a todo `PUT /todo/:id=%v`", idStr)
+
+	idToUpdate, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+	}
+
+	var todoToUpdate TodoItem
+	if err := c.BindJSON(&todoToUpdate); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+	}
+
+	db, err := openDB()
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+	}
+
+	count, err := updateTodo(db, idToUpdate, todoToUpdate)
+	defer db.Close()
+
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+	} else {
+		if count > 0 {
+			message := fmt.Sprintf("Update todo.id: %v done successfully. Count of rows affected by update are: %v", idStr,count)
+			log.Print(message)
+			c.IndentedJSON(http.StatusOK, gin.H{"message": message})
+		} else {
+			message := fmt.Sprintf("No rows found to update todo.id: %v. Count of affected rows is: %v", idStr, count)
+			log.Print(message)
+			c.IndentedJSON(http.StatusOK, gin.H{"message": message})
+		}
+	}
 }
