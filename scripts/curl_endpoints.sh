@@ -25,7 +25,7 @@ curl http://localhost:$PORT/todo \
     --include \
     --header "Content-Type: application/json" \
     --request "POST" \
-    --data '{"id": "4","description": "Get a research for best practices with Go","priority": 4}'
+    --data '{"id": 4,"description": "Get a research for best practices with Go","priority": 4}'
 
 
 echo "\n\n==========================="
@@ -41,7 +41,7 @@ curl http://localhost:$PORT/todo/2 \
     --include \
     --header "Content-Type: application/json" \
     --request "PUT" \
-    --data '{"id": "2","description": "Participate in Open Source with Go or a volunteer position","priority": 4}'
+    --data '{"id": 2,"description": "Participate in Open Source with Go or a volunteer position","priority": 4}'
 
 
 
