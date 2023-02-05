@@ -15,7 +15,7 @@ func openDB() (db *sql.DB, err error) {
 	return db, err
 }
 
-// Function to get all todos
+// Get all todos from database
 func getAllTodos(db *sql.DB) (todos []TodoItem, err error) {
 	rows, err := db.Query("SELECT id, description, priority FROM todos")
 
@@ -41,7 +41,7 @@ func getAllTodos(db *sql.DB) (todos []TodoItem, err error) {
 	return
 }
 
-// Function to get todo by id
+// Get todo by id from database
 func getTodoById(db *sql.DB, id int) (TodoItem, error) {
 	log.Printf("Get Todo By Id: %d", id)
 
@@ -52,27 +52,46 @@ func getTodoById(db *sql.DB, id int) (TodoItem, error) {
 		log.Printf("no todo item with id %v\n", id)
 		return todo, err
 	} else {
-		log.Printf("No sql.ErrNoRows found but found : %s", err.Error())
+		log.Printf("No sql.ErrNoRows found but found : %v", err)
 		return todo, nil
 	}
 }
 
-// Function to insert a new todo item into the database.
+// Insert a new todo item into the database.
 // Returns id of the new todo item
 func insertTodo(db *sql.DB, newTodo TodoItem) (int, error) {
 	log.Printf("Insert a Todo: %v", newTodo)
 
 	feedback, err := db.Exec("INSERT INTO todos (id, description, priority) VALUES (?, ?, ?);", newTodo.Id, newTodo.Description, newTodo.Priority)
-	
+
 	log.Printf("Insert exec feedback: %s", feedback)
-	
+
 	if err != nil {
 		log.Printf("Error can't insert todo item %v\n", newTodo)
 		return newTodo.Id, err
 	}
-	
+
 	id, err := feedback.LastInsertId()
 	log.Printf("feedback.LastInsertId(): %d", id)
 	return newTodo.Id, err
+
+}
+
+// Delete a todo item from the database.
+// Returns count of rows affected.
+func deleteTodo(db *sql.DB, idToDelete int) (int64, error) {
+	log.Printf("Delete a Todo.Id: %v", idToDelete)
+
+	feedback, err := db.Exec("DELETE FROM todos WHERE id=?;", idToDelete)
+
+	log.Printf("Delete exec feedback: %s", feedback)
+
+	if err != nil {
+		log.Printf("Error can't delete todo item id: %v\n", idToDelete)
+	}
+
+	count, err := feedback.RowsAffected()
+	log.Printf("feedback.RowsAffected(): %d", count)
+	return count, err
 
 }

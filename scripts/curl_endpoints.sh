@@ -25,14 +25,14 @@ curl http://localhost:$PORT/todo \
     --include \
     --header "Content-Type: application/json" \
     --request "POST" \
-    --data '{"id": "4","description": "Get a research for best practices with Go","priority": 4}'
+    --data '{"id": 4,"description": "Get a research for best practices with Go","priority": 4}'
 
 
-# echo "\n\n==========================="
-# echo "Delete a todo, endpoint 'DELETE /todo/:id'"
-# curl http://localhost:$PORT/todo/1 \
-#     --include \
-#     --request "DELETE"
+echo "\n\n==========================="
+echo "Delete a todo, endpoint 'DELETE /todo/:id'"
+curl http://localhost:$PORT/todo/1 \
+    --include \
+    --request "DELETE"
 
 
 # echo "\n\n==========================="
