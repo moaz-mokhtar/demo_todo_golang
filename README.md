@@ -38,4 +38,11 @@ $ npm -v
 ```
 - Install `SvelteKit` which supports local development with `Svelte`. Link: https://kit.svelte.dev/
 - You can a good guidance https://svelte.dev/blog/svelte-for-new-developers
+- To creat a Svelte project based on a template after installing SvelteKit:
+```shell
+npm create vite@latest app-name -- --template svelte
+cd app-name
+npm install 
+npm run dev
+```
 
