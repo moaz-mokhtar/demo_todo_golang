@@ -63,7 +63,7 @@ func GetTodoById(c *gin.Context) {
 func NewTodo(c *gin.Context) {
 	log.Printf("Route: new todo `POST /todo`")
 
-	var newTodo TodoItem
+	var newTodo TodoDTO
 	if err := c.BindJSON(&newTodo); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 	}
@@ -82,8 +82,8 @@ func NewTodo(c *gin.Context) {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 
 	} else {
-		log.Printf("New todo inserted is: %v", newTodo)
-		c.IndentedJSON(http.StatusOK, newTodo)
+		log.Printf("New todo id is: %v", id)
+		c.IndentedJSON(http.StatusOK, id)
 	}
 }
 

@@ -78,8 +78,7 @@ func TestPostTodo(t *testing.T) {
 	t.Logf("currentTodoList type: %T\t -- Value: %v\n", currentTodoList, currentTodoList)
 
 	// Create a new todo
-	newTodo := todoItem{
-		ID:          "4",
+	newTodo := TodoDTO{
 		Description: "Research learning resources for Go",
 		Priority:    1,
 	}
