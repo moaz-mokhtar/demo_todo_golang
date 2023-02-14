@@ -1,0 +1,12 @@
+{
+    "name": "todo",
+    "private": true,
+    "scripts": {
+        "db": "docker compose up",
+        "server": "npm run db & cd ./server; go get; go run .;",
+        "serverw": "npm run db & cd ./server; go get; gow run .;",
+        "web": "cd ./web; npm install; npm run dev;",
+        "all": "npm run db & npm run server & npm run web",
+        "rm:db": "docker compose down -v"
+    }
+}

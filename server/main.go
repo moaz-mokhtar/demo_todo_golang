@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
 	"training/demo_todo/pkg"
@@ -12,6 +13,7 @@ func main() {
 	fmt.Println("Hello, world!")
 
 	router := gin.Default()
+	router.Use(cors.Default())
 	router.SetTrustedProxies([]string{"localhost"})
 
 	router.GET("/", pkg.Health)

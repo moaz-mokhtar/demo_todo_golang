@@ -5,3 +5,8 @@ type TodoItem struct {
 	Description string `json:"description"`
 	Priority    int    `json:"priority"`
 }
+
+type TodoDTO struct {
+	Description string `json:"description"`
+	Priority    int    `json:"priority"`
+}

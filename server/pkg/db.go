@@ -58,22 +58,22 @@ func getTodoById(db *sql.DB, id int) (TodoItem, error) {
 }
 
 // Insert a new todo item into the database.
-// Returns id of the new todo item
-func insertTodo(db *sql.DB, newTodo TodoItem) (int, error) {
+// Returns id of the new todo item or -1 if there was an error
+func insertTodo(db *sql.DB, newTodo TodoDTO) (int64, error) {
 	log.Printf("Insert a Todo: %v", newTodo)
 
-	feedback, err := db.Exec("INSERT INTO todos (id, description, priority) VALUES (?, ?, ?);", newTodo.Id, newTodo.Description, newTodo.Priority)
+	feedback, err := db.Exec("INSERT INTO todos (description, priority) VALUES (?, ?);", newTodo.Description, newTodo.Priority)
 
 	log.Printf("Insert exec feedback: %s", feedback)
 
 	if err != nil {
 		log.Printf("Error can't insert todo item %v\n", newTodo)
-		return newTodo.Id, err
+		return -1, err
 	}
 
 	id, err := feedback.LastInsertId()
 	log.Printf("feedback.LastInsertId(): %d", id)
-	return newTodo.Id, err
+	return id, err
 
 }
 
