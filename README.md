@@ -3,23 +3,23 @@
 This repo shows a sample for how to create a todo application with GoLang, MySQL and Svelte.
 
 
+
 ## Build the system
 
-To build the system:
+To run the system:
+- Install prerequisites
+- Run `npm run all`
 
-**termial 1**
-```shell
-$ docker compose up
+### prerequisites
+- Install [golang](https://go.dev/doc/install)
+- Install gcc build-essential (gcc)
+- Install docker, also can run script `sh scripts/get_docker.sh`.
+- Install `NodeJs` and `npm` [Link](https://nodejs.org/en/download/).
+- Install `SvelteKit` which supports local development with `Svelte`. Link: https://kit.svelte.dev/
 
 
-**teminal 2**
-```shell
-$ cd web
-$ npm install
-$ npm run dev
-```
+## Development Guidance:
 
-## Guidance:
 ### Go language
 https://go.dev
 - Install [golang](https://go.dev/doc/install)

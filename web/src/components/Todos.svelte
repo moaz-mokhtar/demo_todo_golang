@@ -1,27 +1,22 @@
 <script>
     import { onMount } from "svelte";
-    import { get } from "svelte/store";
 
     const PORT_SERVER = 3000;
     const SERVER = "http://localhost:" + PORT_SERVER;
     console.log("SERVER: " + SERVER);
 
     let list = [];
-    let todoItem = {
-        id: 0,
-        description: "",
-        priority: 5,
-    };
+    let todoItem = clearItem();
 
     onMount(async () => {
         await getAll();
     });
 
     function clearItem() {
-        todoItem = {
-            id: 0,
+        return {
+            id: -1,
             description: "",
-            priority: 0,
+            priority: 5,
         };
     }
 
@@ -78,7 +73,7 @@
         let newId = await response.json();
         console.log("New todo id: " + newId);
         await getAll();
-        clearItem();
+        todoItem = clearItem();
     }
 
     async function deleteTodo(todoId) {
@@ -97,7 +92,7 @@
         console.log("Feedback: " + feedback);
 
         await getAll();
-        clearItem();
+        // todoItem = clearItem();
     }
 
     async function updateTodo(todo) {
@@ -129,7 +124,7 @@
         console.log("Feedback: " + feedback);
 
         await getAll();
-        clearItem();
+        // todoItem = clearItem();
     }
 </script>
 
